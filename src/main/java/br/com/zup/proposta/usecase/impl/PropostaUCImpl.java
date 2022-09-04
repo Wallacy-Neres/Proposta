@@ -49,11 +49,10 @@ public class PropostaUCImpl implements PropostaUC {
 
             if(resultadoAnalise.getResultadoSolicitacao().equals("SEM_RESTRICAO")){
                 proposta.setStatusProposta(StatusProposta.ELEGIVEL);
-                port.salvarProposta(proposta);
-            }else if(resultadoAnalise.getResultadoSolicitacao().equals("COM_RESTRICAO")){
+            }else {
                 proposta.setStatusProposta(StatusProposta.NAO_ELEGIVEL);
-                port.salvarProposta(proposta);
             }
+            port.salvarProposta(proposta);
 
             return ResponseEntity.created(uri).build();
         }

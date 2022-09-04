@@ -20,6 +20,7 @@ public class PropostaController {
 
     @PostMapping("/criar")
     public ResponseEntity<?> criarProposta(@RequestBody @Valid PropostaDTO propostaDTO, UriComponentsBuilder builder){
+
         return useCase.excute(propostaDTO, builder);
     }
 
