@@ -7,6 +7,7 @@ import br.com.zup.proposta.port.interfaces.PropostaPort;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -28,5 +29,10 @@ public class PropostaPortImpl implements PropostaPort {
     @Override
     public Optional<Proposta> findByDocumento(String documento) {
         return propostaRepository.findByDocumento(documento);
+    }
+
+    @Override
+    public List<Proposta> buscaPorPropostasElegiveis() {
+        return propostaRepository.buscaPorPropostaElegiveis();
     }
 }

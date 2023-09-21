@@ -7,6 +7,8 @@ import br.com.zup.proposta.enums.StatusProposta;
 import br.com.zup.proposta.exception.RestricaoException;
 import br.com.zup.proposta.port.interfaces.PropostaPort;
 import feign.Response;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -19,6 +21,8 @@ public class TrataComRestricaoExceptionUCImpl implements TrataExceptionUC {
     @Autowired
     private PropostaConverter converter;
 
+    Logger logger = LoggerFactory.getLogger(this.getClass());
+
     @Override
     public boolean validaException(Throwable exception) {
         return exception instanceof RestricaoException;
@@ -26,6 +30,8 @@ public class TrataComRestricaoExceptionUCImpl implements TrataExceptionUC {
 
     @Override
     public void trataException(Throwable exception) {
+
+        logger.info("Inicio do tratamento para clientes não elegiveis");
 
         RestricaoException restricaoException = (RestricaoException) exception;
 
@@ -35,6 +41,8 @@ public class TrataComRestricaoExceptionUCImpl implements TrataExceptionUC {
         var propostaDTO = converter.converterBytesToPropostaDTO(body);
 
         propostaPort.atualizaProposta(StatusProposta.NAO_ELEGIVEL, propostaDTO.getDocumento());
+
+        logger.info("Fim do tratamento para clientes não elegiveis");
 
     }
 }

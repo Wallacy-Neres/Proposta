@@ -1,5 +1,7 @@
 package br.com.zup.proposta.config;
 
+import br.com.zup.proposta.exception.BadRequestException;
+import br.com.zup.proposta.exception.ErroDesconhecidoException;
 import br.com.zup.proposta.exception.RestricaoException;
 import feign.Response;
 import feign.codec.ErrorDecoder;
@@ -9,7 +11,7 @@ import org.springframework.stereotype.Component;
 
 
 @Component
-public class FeignErrorDecoder implements ErrorDecoder {
+public class FeignCartoesErrorDecoder implements ErrorDecoder {
 
     private ErrorDecoder errorDecoder = new Default();
     Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -18,10 +20,10 @@ public class FeignErrorDecoder implements ErrorDecoder {
 
         switch (response.status()){
             case 400:
-                logger.error("Erro ao consultar" + response.status());
+                return  new BadRequestException("Erro ao tentar criar cartao, verifique os campos enviados");
 
-            case 422:
-               return  new RestricaoException("Cliente com restrição", response) ;
+            case 500:
+               return  new ErroDesconhecidoException("O servidor não conseguiu processar, erro desconhecido");
 
             default:
                 return errorDecoder.decode(chaveMetodo, response);

@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -21,6 +22,10 @@ public interface PropostaRepository extends JpaRepository<Proposta, Long> {
     @Transactional
     @Query("UPDATE Proposta p SET p.statusProposta =:statusParam WHERE p.documento =:documentoParam")
     public void atualizaStatusProposta(@Param("statusParam") StatusProposta status, @Param("documentoParam") String documento);
+
+
+    @Query(value = "SELECT * FROM tb_proposta p WHERE p.status_proposta = 'ELEGIVEL' AND ISNULL(p.cartao_id_cartao)", nativeQuery = true)
+    public List<Proposta> buscaPorPropostaElegiveis();
 
 
 }

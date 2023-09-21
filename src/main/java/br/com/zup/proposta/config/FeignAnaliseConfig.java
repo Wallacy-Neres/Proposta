@@ -4,11 +4,11 @@ import feign.codec.ErrorDecoder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
-@Component
-public class FeignConfig {
+
+public class FeignAnaliseConfig {
 
     @Bean
     public ErrorDecoder errorDecoder() {
-        return new FeignErrorDecoder();
+        return new FeignAnaliseErrorDecoder();
     }
 }

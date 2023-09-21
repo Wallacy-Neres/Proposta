@@ -23,6 +23,9 @@ public class Proposta {
 
     private BigDecimal salario;
 
+    @OneToOne(cascade = CascadeType.MERGE)
+    private Cartao cartao;
+
     @Enumerated(EnumType.STRING)
     private StatusProposta statusProposta;
 
@@ -36,6 +39,10 @@ public class Proposta {
         this.nome = nome;
         this.endereco = endereco;
         this.salario = salario;
+    }
+
+    public void insereCartaoNaProposta(Cartao cartao){
+        this.cartao = cartao;
     }
 
 
