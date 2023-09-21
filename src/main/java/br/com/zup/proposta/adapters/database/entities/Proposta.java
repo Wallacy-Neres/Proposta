@@ -1,6 +1,6 @@
 package br.com.zup.proposta.adapters.database.entities;
 
-import br.com.zup.proposta.dto.StatusProposta;
+import br.com.zup.proposta.enums.StatusProposta;
 
 import javax.persistence.*;
 import java.math.BigDecimal;

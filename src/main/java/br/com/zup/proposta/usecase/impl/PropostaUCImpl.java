@@ -7,7 +7,7 @@ import br.com.zup.proposta.adapters.webservices.analise.converter.AnalisePropost
 import br.com.zup.proposta.adapters.webservices.analise.dto.AnalisePropostaRequest;
 import br.com.zup.proposta.adapters.webservices.analise.dto.ResultadoAnalise;
 import br.com.zup.proposta.dto.PropostaDTO;
-import br.com.zup.proposta.dto.StatusProposta;
+import br.com.zup.proposta.enums.StatusProposta;
 import br.com.zup.proposta.port.interfaces.PropostaPort;
 import br.com.zup.proposta.usecase.interfaces.PropostaUC;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +36,9 @@ public class PropostaUCImpl implements PropostaUC {
 
     @Override
     public ResponseEntity<Object> excute(PropostaDTO propostaDTO, UriComponentsBuilder builder) {
+
         Proposta proposta = propostaConverter.converter(propostaDTO);
+
         Optional<Proposta> propostaBanco = port.findByDocumento(proposta.getDocumento());
 
         if(propostaBanco.isEmpty()){
@@ -49,9 +51,13 @@ public class PropostaUCImpl implements PropostaUC {
 
             if(resultadoAnalise.getResultadoSolicitacao().equals("SEM_RESTRICAO")){
                 proposta.setStatusProposta(StatusProposta.ELEGIVEL);
-            }else {
-                proposta.setStatusProposta(StatusProposta.NAO_ELEGIVEL);
             }
+
+//            Predicate<ResultadoAnalise> resultadoAnalisePredicate = resultado -> (resultado.getResultadoSolicitacao().equals(AnaliseEnum.SEM_RESTRICAO.getDescricao()));
+//            final boolean validaResultadoAnalise = resultadoAnalisePredicate.test(resultadoAnalise);
+
+
+
             port.salvarProposta(proposta);
 
             return ResponseEntity.created(uri).build();
