@@ -7,13 +7,13 @@ services:
       dockerfile: ./Dockerfile
     image: wallacyneres/proposta
     ports:
-     - "8081:8081"
-    links: 
-     - mySQL
+      - "8080:8080"
+    links:
+      - db
     depends_on:
-     - mySQL
-     - analise
-     - contas
+      - db
+      - analise
+      - contas
     environment:
       APP_PORT: 8081
       SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/db_proposta
@@ -21,16 +21,16 @@ services:
       HEALTH_PROPOSTA_PORTA: 9999
     restart: on-failure
 
-  mySQL:
+  db:
     image: mysql:8.0.25
     container_name: propostas-mysql
     ports:
-     - "3306:3306"
+      - "3307:3306"
     environment:
-     - MYSQL_DATABASE=db_proposta
-     - MYSQL_ROOT_PASSWORD=123120594
+      - MYSQL_DATABASE=db_proposta
+      - MYSQL_ROOT_PASSWORD=123120594
     volumes:
-     - mysql-volume:/var/lib/mysql
+      - mysql-volume:/var/lib/mysql
 
   zookeeper:
     image: "confluentinc/cp-zookeeper:5.2.1"
@@ -141,7 +141,7 @@ services:
   prometheus:
     image: prom/prometheus
     volumes:
-     - prometheus-volume:/etc/prometheus/
+      - prometheus-volume:/etc/prometheus/
     network_mode: bridge
     ports:
       - "9090:9090"

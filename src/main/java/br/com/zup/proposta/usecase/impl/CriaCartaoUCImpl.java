@@ -9,13 +9,17 @@ import br.com.zup.proposta.adapters.webservices.cartoes.dto.RetornoCriacaoCartao
 import br.com.zup.proposta.dto.CartaoDTO;
 import br.com.zup.proposta.port.interfaces.PropostaPort;
 import br.com.zup.proposta.usecase.interfaces.CriaCartaoUC;
+import com.yusufaytas.dlock.TryLock;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
+import java.sql.Time;
+import java.time.Duration;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
 @Component
@@ -34,6 +38,7 @@ public class CriaCartaoUCImpl implements CriaCartaoUC {
 
     @Override
     @Scheduled(fixedDelayString = "${tempo.execucao}")
+    @TryLock(name = "teste", owner = "dlock", lockFor = 1)
     public void criacartaoParaProposta() {
 
         logger.info("Inicio do Schedule para criacao do cartão para propostas elegiveis");

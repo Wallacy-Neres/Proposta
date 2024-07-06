@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: banco-de-dados-mysql
+  labels:
+    name: banco-de-dados-mysql
+spec:
+  containers:
+    - name: banco-de-dados
+      image: mysql:8.0.25
+      ports:
+        - containerPort: 3306

@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: motor-propostas
+  labels:
+    name: motor-propostas
+spec:
+  containers:
+    - name: proposta
+      image: wallacyneres/proposta
+      ports:
+        - containerPort: 8080
